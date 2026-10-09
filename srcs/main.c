@@ -39,8 +39,10 @@ int main(void)
 {
     InitWindow(1280, 720, "Glorb Factory");
 
-    t_Grid  *Grid = ft_Grid(20, 20);
-    if (!Grid)
+    t_Vars  Vars;
+
+    Vars.grid = ft_Grid(20, 20);
+    if (!Vars.grid)
     {
         CloseWindow();
         return (1);
@@ -53,26 +55,26 @@ int main(void)
         "res/spawner_tile.png", 
         NULL
     };
-    if (ft_GridLoadTextures(Grid, textures_paths) != 0)
+    if (ft_GridLoadTextures(Vars.grid, textures_paths) != 0)
         return (1);
     
-    if (ft_GridGenerateTiles(Grid) != 0)
+    if (ft_GridGenerateTiles(Vars.grid) != 0)
         return (1);
 
     while (!WindowShouldClose())
     {
-        ft_GridHandleInput(Grid);
-        ft_GridUpdateTiles(Grid);
+        ft_GridHandleInput(Vars.grid);
+        ft_GridUpdateTiles(Vars.grid);
 
         BeginDrawing();
             ClearBackground(BLACK);
-            ft_GridDrawTiles(Grid);
-            ft_GridDrawPaintTile(Grid);
+            ft_GridDrawTiles(Vars.grid);
+            ft_GridDrawPaintTile(Vars.grid);
         EndDrawing();
     }
 
-    ft_GridUnloadTextures(Grid);
-    ft_GridFree(Grid);
+    ft_GridUnloadTextures(Vars.grid);
+    ft_GridFree(Vars.grid);
 
     CloseWindow();
 

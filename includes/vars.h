@@ -57,6 +57,11 @@ typedef struct  s_Grid
     e_TileType  paint_type;
 }   t_Grid;
 
+typedef struct  s_Vars
+{
+    t_Grid  *grid;
+}   t_Vars;
+
 //  Grid.c
 t_Grid  *ft_Grid(uint16_t width, uint16_t height);
 int     ft_GridLoadTextures(t_Grid *grid, char **paths);
