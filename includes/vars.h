@@ -77,6 +77,7 @@ typedef struct  s_UserInterfaceButton
     float       w;
     float       h;
     Texture2D   *tex_ptr;
+    Color       color;
     void        (*fptr_pressed)(void *data);
     struct s_UserInterfaceButton    *next;
 }   t_UserInterfaceButton;
@@ -90,7 +91,10 @@ typedef struct  s_UserInterface
 }   t_UserInterface;
 
 //  UserInterface.c
-t_UserInterface *ft_CreateUserInterface(void);
+t_UserInterface         *ft_CreateUserInterface(void);
+t_UserInterfaceButton   *ft_UserInterfaceCreateButton(float x, float y, float w, float h, Texture2D *tex, Color color);
+void                    ft_UserInterfaceLstPushButton(t_UserInterface *ui, t_UserInterfaceButton *button);
+void                    ft_UserInterfaceDraw(t_UserInterface *ui);
 
 
 //  - - - - VARS DATA               - - - -

@@ -25,5 +25,11 @@ int ft_VarsInit(t_Vars *vars)
     ft_GridSetScale(vars->grid, 32.0f);
     ft_GridSetOffset(vars->grid, 0.0f, 0.0f);
 
+    vars->ui = ft_CreateUserInterface();
+    ft_UserInterfaceLstPushButton(vars->ui,
+        ft_UserInterfaceCreateButton(0, 0, 50, 60, NULL, RED));
+    ft_UserInterfaceLstPushButton(vars->ui,
+        ft_UserInterfaceCreateButton(100, 0, 50, 200, ft_TexArrGet(grid_tex_arr, GRIDTILE_SPAWNER), WHITE));
+
     return (0);
 }

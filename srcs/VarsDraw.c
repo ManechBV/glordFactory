@@ -3,4 +3,5 @@
 void    ft_VarsDraw(t_Vars *vars)
 {
     ft_GridDraw(vars->grid);
+    ft_UserInterfaceDraw(vars->ui);
 }
