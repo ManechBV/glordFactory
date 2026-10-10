@@ -61,15 +61,17 @@ typedef struct  s_Grid
 t_Grid      *ft_CreateGrid(uint16_t width, uint16_t height, t_TexArr *tex_arr);
 void        ft_FreeGrid(t_Grid *grid);
 
-t_GridTile  *ft_GridGetTile(t_Grid *grid, uint16_t id);
-void        ft_GridSetTileType(t_Grid *grid, uint16_t id, e_GridTileType type);
 void        ft_GridSetOffset(t_Grid *grid, float off_x, float off_y);
 void        ft_GridSetScale(t_Grid *grid, float scale);
 void        ft_GridIncreaseOffset(t_Grid *grid, float delta_x, float delta_y);
 
-void        ft_GridPaintTileAtMouse(t_Grid *grid);
-
 void        ft_GridDraw(t_Grid *grid);
+
+//  GridTile.c
+t_GridTile  *ft_GridGetTile(t_Grid *grid, uint16_t id);
+void        ft_GridGetTileCoord(t_Grid *grid, uint16_t id, uint16_t *x, uint16_t *y);
+void        ft_GridSetTileType(t_Grid *grid, uint16_t id, e_GridTileType type);
+void        ft_GridPaintTileAtMouse(t_Grid *grid);
 
 
 //  - - - - USER INTERFACE DATA     - - - -
@@ -97,17 +99,20 @@ typedef struct  s_UserInterface
 t_UserInterface         *ft_CreateUserInterface(void);
 void                    ft_FreeUserInterface(t_UserInterface *ui);
 
+bool                    ft_UserInterfaceClick(void *data_vars, t_UserInterface *ui);
+
+void                    ft_UserInterfaceDraw(t_UserInterface *ui);
+
+//  UserInterfaceButton.c
 t_UserInterfaceButton   *ft_UserInterfaceCreateButton(float x, float y, float w, float h, Texture2D *tex, Color color);
 void                    ft_UserInterfaceSetButtonData(t_UserInterfaceButton *butt, void *data);
 void                    ft_UserInterfaceLstPushButton(t_UserInterface *ui, t_UserInterfaceButton *button);
 void                    ft_UserInterfaceLstPushButtonBack(t_UserInterface *ui, t_UserInterfaceButton *button);
-
 void                    ft_UserInterfaceLinkButton(t_UserInterfaceButton *button,
                             void (*fptr_action)(t_UserInterfaceButton *self, void *data_vars));
 
-bool                    ft_UserInterfaceClick(void *data_vars, t_UserInterface *ui);
-
-void                    ft_UserInterfaceDraw(t_UserInterface *ui);
+bool                    ft_IsMouseOnButton(t_UserInterfaceButton *butt);
+void                    ft_UserInterfaceDrawButton(t_UserInterfaceButton *button);
 
 
 //  - - - - VARS DATA               - - - -
