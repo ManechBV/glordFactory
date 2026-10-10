@@ -3,4 +3,5 @@
 void    ft_VarsFree(t_Vars *vars)
 {
     ft_FreeGrid(vars->grid);
+    ft_FreeUserInterface(vars->ui);
 }

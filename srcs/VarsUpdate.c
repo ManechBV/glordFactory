@@ -2,6 +2,19 @@
 
 static void ft_VarsHandleMouseInput(t_Vars *vars)
 {
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        //  Handle user interface buttons input:
+        //  if no ui element has been clicked do shit
+        //  to prevent the user from clicking shit on the map while
+        //  trying to click shit on the ui ta capte
+        if (ft_UserInterfaceClick(vars, vars->ui) == false)
+        {
+            ft_GridPaintTileAtMouse(vars->grid);
+        }
+    }
+
+    //  Move grid by holding down middle mouse button
     if (IsMouseButtonDown(MOUSE_BUTTON_MIDDLE))
     {
         Vector2 mouse_delta = GetMouseDelta();

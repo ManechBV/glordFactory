@@ -18,6 +18,7 @@ t_Grid  *ft_CreateGrid(uint16_t width, uint16_t height, t_TexArr *tex_arr)
     grid->scale = 16.0f;
     grid->off_x = 0.0f;
     grid->off_y = 0.0f;
+    grid->paint_type = GRIDTILE_BELT;
 
     grid->tiles = malloc(sizeof(t_GridTile) * grid->len);
     if (!(grid->tiles))
@@ -76,6 +77,17 @@ void    ft_GridSetTileType(t_Grid *grid, uint16_t id, e_GridTileType type)
         return ;
     }
     tile->type = type;
+}
+
+void    ft_GridPaintTileAtMouse(t_Grid *grid)
+{
+    float       x = GetMouseX() - grid->off_x;
+    float       y = GetMouseY() - grid->off_y;
+    uint16_t    map_x = x / grid->scale;
+    uint16_t    map_y = y / grid->scale;
+    uint16_t    id  = (map_y * grid->wid) + map_x;
+
+    ft_GridSetTileType(grid, id, grid->paint_type);
 }
 
 t_GridTile  *ft_GridGetTile(t_Grid *grid, uint16_t id)

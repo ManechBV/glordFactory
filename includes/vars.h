@@ -46,14 +46,15 @@ typedef struct  s_GridTile
 
 typedef struct  s_Grid
 {
-    t_GridTile  *tiles;
-    t_TexArr    *tex_arr;
-    uint16_t    len;
-    uint16_t    wid;
-    uint16_t    hei;
-    float       scale;
-    float       off_x;
-    float       off_y;
+    t_GridTile      *tiles;
+    t_TexArr        *tex_arr;
+    uint16_t        len;
+    uint16_t        wid;
+    uint16_t        hei;
+    float           scale;
+    float           off_x;
+    float           off_y;
+    e_GridTileType  paint_type;
 }   t_Grid;
 
 //  Grid.c
@@ -65,6 +66,8 @@ void        ft_GridSetTileType(t_Grid *grid, uint16_t id, e_GridTileType type);
 void        ft_GridSetOffset(t_Grid *grid, float off_x, float off_y);
 void        ft_GridSetScale(t_Grid *grid, float scale);
 void        ft_GridIncreaseOffset(t_Grid *grid, float delta_x, float delta_y);
+
+void        ft_GridPaintTileAtMouse(t_Grid *grid);
 
 void        ft_GridDraw(t_Grid *grid);
 
@@ -78,13 +81,13 @@ typedef struct  s_UserInterfaceButton
     float       h;
     Texture2D   *tex_ptr;
     Color       color;
-    void        (*fptr_pressed)(void *data);
+    void        *data;
+    void        (*fptr_pressed)(struct s_UserInterfaceButton *self, void *data_vars);
     struct s_UserInterfaceButton    *next;
 }   t_UserInterfaceButton;
 
 typedef struct  s_UserInterface
 {
-    t_TexArr                *tex_arr;
     t_UserInterfaceButton   *buttons_lst;
     uint16_t                len;
     bool                    hidden;
@@ -92,8 +95,18 @@ typedef struct  s_UserInterface
 
 //  UserInterface.c
 t_UserInterface         *ft_CreateUserInterface(void);
+void                    ft_FreeUserInterface(t_UserInterface *ui);
+
 t_UserInterfaceButton   *ft_UserInterfaceCreateButton(float x, float y, float w, float h, Texture2D *tex, Color color);
+void                    ft_UserInterfaceSetButtonData(t_UserInterfaceButton *butt, void *data);
 void                    ft_UserInterfaceLstPushButton(t_UserInterface *ui, t_UserInterfaceButton *button);
+void                    ft_UserInterfaceLstPushButtonBack(t_UserInterface *ui, t_UserInterfaceButton *button);
+
+void                    ft_UserInterfaceLinkButton(t_UserInterfaceButton *button,
+                            void (*fptr_action)(t_UserInterfaceButton *self, void *data_vars));
+
+bool                    ft_UserInterfaceClick(void *data_vars, t_UserInterface *ui);
+
 void                    ft_UserInterfaceDraw(t_UserInterface *ui);
 
 
