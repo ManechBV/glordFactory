@@ -14,6 +14,11 @@ static void ft_VarsHandleMouseInput(t_Vars *vars)
         }
     }
 
+    if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
+    {
+        ft_GridTileRightClick(vars->grid);
+    }
+
     //  Move grid by holding down middle mouse button
     if (IsMouseButtonDown(MOUSE_BUTTON_MIDDLE))
     {

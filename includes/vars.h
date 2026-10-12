@@ -42,7 +42,30 @@ typedef enum
 typedef struct  s_GridTile
 {
     e_GridTileType  type;
+    void            *data;
+    void            (*fptr_update)(struct s_GridTile *self);
+    void            (*fptr_draw)(struct s_GridTile *self, void *data_grid, uint16_t i);
+    void            (*fptr_free_data)(struct s_GridTile *self);
+    void            (*fptr_on_right_click)(struct s_GridTile *self);
 }   t_GridTile;
+
+//  TILE BELT TYPE 
+typedef struct  s_GridTileBelt
+{
+    float           rot;
+}   t_GridTileBelt;
+
+void    ft_GridTileInitEmpty(t_GridTile *tile);
+void    ft_GridTileInitBelt(t_GridTile *tile);
+void    ft_GridTileInitSeller(t_GridTile *tile);
+void    ft_GridTileInitSpawner(t_GridTile *tile);
+
+static void (*G_fptrarr_GridTileInits[4])(t_GridTile *tile) = {
+    ft_GridTileInitEmpty,
+    ft_GridTileInitBelt,
+    ft_GridTileInitSeller,
+    ft_GridTileInitSpawner
+};
 
 typedef struct  s_Grid
 {
@@ -72,6 +95,7 @@ t_GridTile  *ft_GridGetTile(t_Grid *grid, uint16_t id);
 void        ft_GridGetTileCoord(t_Grid *grid, uint16_t id, uint16_t *x, uint16_t *y);
 void        ft_GridSetTileType(t_Grid *grid, uint16_t id, e_GridTileType type);
 void        ft_GridPaintTileAtMouse(t_Grid *grid);
+void        ft_GridTileRightClick(t_Grid *grid);
 
 
 //  - - - - USER INTERFACE DATA     - - - -

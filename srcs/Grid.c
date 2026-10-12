@@ -1,3 +1,4 @@
+#include <strings.h>
 #include "vars.h"
 
 t_Grid  *ft_CreateGrid(uint16_t width, uint16_t height, t_TexArr *tex_arr)
@@ -23,7 +24,9 @@ t_Grid  *ft_CreateGrid(uint16_t width, uint16_t height, t_TexArr *tex_arr)
     grid->tiles = malloc(sizeof(t_GridTile) * grid->len);
     if (!(grid->tiles))
         return (ft_Error("Failed to malloc t_GridTile array in ft_CreateGrid"));
+    bzero(grid->tiles, sizeof(t_GridTile) * grid->len);
 
+    //  Set all tiles to Empty type (GRIDTILE_EMPTY)
     t_GridTile  *curr;
     uint16_t    i = 0;
     while (i < grid->len)
@@ -39,6 +42,14 @@ t_Grid  *ft_CreateGrid(uint16_t width, uint16_t height, t_TexArr *tex_arr)
 
 void    ft_FreeGrid(t_Grid *grid)
 {
+    uint16_t    i = 0;
+
+    while (i < grid->len)
+    {
+        if (grid->tiles[i].fptr_free_data != NULL)
+            (grid->tiles[i].fptr_free_data)(&(grid->tiles[i]));
+        i++;
+    }
     ft_FreeTextureArray(grid->tex_arr);
     free(grid->tiles);
     free(grid);
@@ -78,12 +89,17 @@ void    ft_GridDraw(t_Grid *grid)
         curr = ft_GridGetTile(grid, i);
         if (curr == NULL)
             return ;
-        ft_GridGetTileCoord(grid, i, &x, &y);
-        ft_TexArrDraw(grid->tex_arr, curr->type,
-            grid->off_x + (x * grid->scale),
-            grid->off_y + (y * grid->scale),
-            grid->scale, grid->scale,
-            (Vector2){0}, 0.0f);
+        if (curr->fptr_draw != NULL)
+            curr->fptr_draw(curr, grid, i);
+        else
+        {
+            ft_GridGetTileCoord(grid, i, &x, &y);
+            ft_TexArrDraw(grid->tex_arr, curr->type,
+                grid->off_x + (x * grid->scale),
+                grid->off_y + (y * grid->scale),
+                grid->scale, grid->scale,
+                (Vector2){0}, 0.0f);
+        }
         i++;
     }
 }

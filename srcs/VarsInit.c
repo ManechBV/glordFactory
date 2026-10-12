@@ -45,16 +45,17 @@ int ft_VarsInit(t_Vars *vars)
         while (type_tex <= GRIDTILE_SPAWNER)
         {
             t_UserInterfaceButton*  butt = ft_UserInterfaceCreateButton(
-                x, GetScreenHeight() - 42,
-                32, 32,
-                ft_TexArrGet(grid_tex_arr, type_tex),
-                WHITE);
-            ft_UserInterfaceLstPushButton(vars->ui, butt);
+                x, GetScreenHeight() - 42, 32, 32,
+                ft_TexArrGet(grid_tex_arr, type_tex), WHITE);
+            
             butt->data = malloc(sizeof(e_GridTileType));
             if (!(butt->data))
                 return (1);
             *((e_GridTileType*)(butt->data)) = type_tex;
             ft_UserInterfaceLinkButton(butt, ft_ButtonSetGridPaintType);
+
+            ft_UserInterfaceLstPushButton(vars->ui, butt);
+
             x += 42;
             type_tex++;
         }
